@@ -19,9 +19,10 @@
         </div>
     @endif
 
-    <form action="{{ route('users.store') }}">
-        <label for="fullname">Full Name:</label>
-        <input type="text" name="fullname" value="{{ old('fullname') }}"><br>
+    <form action="{{ route('users.store') }}" method="POST">
+        @csrf
+        <label for="full_name">Full Name:</label>
+        <input type="text" name="full_name" value="{{ old('full_name') }}"><br>
         <label for="nick">Nick:</label>
         <input type="text" name="nick" value="{{ old('nick') }}"><br>
         <label for="nif">NIF:</label>
@@ -30,8 +31,8 @@
         <input type="email" name="email" value="{{ old('email') }}"><br>
         <label for="password">Password:</label>
         <input type="password" name="password" value="{{ old('password') }}"><br>
-        <label for="bornDate">Born date:</label>
-        <input type="date" name="bornDate" value="{{ old('bornDate') }}"><br>
+        <label for="born_date">Born date:</label>
+        <input type="date" name="born_date" value="{{ old('born_date') }}"><br>
         
         <button type="submit">Crear</button>
     </form>

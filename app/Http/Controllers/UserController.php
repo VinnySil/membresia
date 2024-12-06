@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class UserController extends Controller
 {
@@ -31,13 +32,16 @@ class UserController extends Controller
     {
         //validar los datos que llegan desde el fronted
         $validated = $request->validate([
-            'fullname' => 'required|max:100',
+            'full_name' => 'required|max:100',
             'nick' => 'required|unique:users|max:50',
-            'nif' => 'required|unique|min:10|max:10',
-            'email' => 'required|unique|max:255',
+            'nif' => 'required|unique:users|min:9|max:9',
+            'email' => 'required|unique:users|max:255',
             'password' => 'required|max:255',
-            'bornDate' => 'required|date'
+            'born_date' => 'required|date'
         ]);
+        $user = User::create($request->all());
+
+        return redirect()->route('users.show', compact('user'));
     }
 
     /**
@@ -45,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
