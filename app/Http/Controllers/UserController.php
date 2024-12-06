@@ -31,7 +31,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //validar los datos que llegan desde el fronted
-        $validated = $request->validate([
+        $request->validate([
             'full_name' => 'required|max:100',
             'nick' => 'required|unique:users|max:50',
             'nif' => 'required|unique:users|min:9|max:9',
@@ -57,7 +57,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -65,7 +65,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        //validar los datos que llegan desde el fronted
+        $request->validate([
+            'full_name' => 'required|max:100',
+            'nick' => 'required|max:50|unique:users,nick,'.$user->id,
+            'nif' => 'required|min:9|max:9|unique:users,nif,'.$user->id,
+            'email' => 'required|max:255|unique:users,email,'.$user->id,
+            'born_date' => 'required|date'
+        ]);
+
+        $user->update($request->all());
+        return redirect()->route('users.show', compact('user'));
     }
 
     /**
@@ -73,6 +83,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }
