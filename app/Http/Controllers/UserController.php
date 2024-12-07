@@ -7,68 +7,79 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-    }
+   public function index()
+   {
+       $users = User::all();
+       return view('users.index', compact('users'));
+   }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('users.create');
-    }
+   /**
+    * Show the form for creating a new resource.
+    */
+   public function create()
+   {
+       return view('users.create');
+   }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //validar los datos que llegan desde el fronted
-        $validated = $request->validate([
-            'fullname' => 'required|max:100',
-            'nick' => 'required|unique:users|max:50',
-            'nif' => 'required|unique|min:10|max:10',
-            'email' => 'required|unique|max:255',
-            'password' => 'required|max:255',
-            'bornDate' => 'required|date'
-        ]);
-    }
+   /**
+    * Store a newly created resource in storage.
+    */
+   public function store(Request $request)
+   {
+       //validar los datos que llegan desde el fronted
+       $request->validate([
+           'full_name' => 'required|max:100',
+           'nick' => 'required|unique:users|max:50',
+           'nif' => 'required|unique:users|min:9|max:9',
+           'email' => 'required|unique:users|max:255',
+           'password' => 'required|max:255',
+           'born_date' => 'required|date'
+       ]);
+       $user = User::create($request->all());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
+       return redirect()->route('users.show', compact('user'));
+   }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
+   /**
+    * Display the specified resource.
+    */
+   public function show(User $user)
+   {
+       return view('users.show', compact('user'));
+   }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
+   /**
+    * Show the form for editing the specified resource.
+    */
+   public function edit(User $user)
+   {
+       return view('users.edit', compact('user'));
+   }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
+   /**
+    * Update the specified resource in storage.
+    */
+   public function update(Request $request, User $user)
+   {
+       //validar los datos que llegan desde el fronted
+       $request->validate([
+           'full_name' => 'required|max:100',
+           'nick' => 'required|max:50|unique:users,nick,'.$user->id,
+           'nif' => 'required|min:9|max:9|unique:users,nif,'.$user->id,
+           'email' => 'required|max:255|unique:users,email,'.$user->id,
+           'born_date' => 'required|date'
+       ]);
+
+       $user->update($request->all());
+       return redirect()->route('users.show', compact('user'));
+   }
+
+   /**
+    * Remove the specified resource from storage.
+    */
+   public function destroy(User $user)
+   {
+       $user->delete();
+       return redirect()->route('users.index');
+   }
 }
