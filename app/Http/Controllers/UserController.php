@@ -8,22 +8,19 @@ use Illuminate\Routing\Route;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $users = User::all();
-        return view('users.index', compact('users'));
-    }
+   public function index()
+   {
+       $users = User::all();
+       return view('users.index', compact('users'));
+   }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('users.create');
-    }
+   /**
+    * Show the form for creating a new resource.
+    */
+   public function create()
+   {
+       return view('users.create');
+   }
 
     /**
      * Store a newly created resource in storage.
