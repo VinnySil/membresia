@@ -21,13 +21,11 @@ class RolSeeder extends Seeder
 
         $rol = new Rol();
         $rol->name = "Editor";
-        $rol->name = "Administrador";
         $rol->save();
         $rol->permissions()->attach([2,4]);
 
         $rol = new Rol();
         $rol->name = "Cliente";
-        $rol->name = "Administrador";
         $rol->save();
         $rol->permissions()->attach([4]);
     }
