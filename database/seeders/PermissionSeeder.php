@@ -24,9 +24,13 @@ class PermissionSeeder extends Seeder
         $permission = new Permission();
         $permission->action = 'Delete';
         $permission->save();
-        
+
         $permission = new Permission();
         $permission->action = 'Read';
+        $permission->save();
+
+        $permission = new Permission();
+        $permission->action = 'Buy';
         $permission->save();
     }
 }
