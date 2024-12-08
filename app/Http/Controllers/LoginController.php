@@ -15,23 +15,15 @@ class LoginController extends Controller
             'password' => 'required|max:255',
         ]);
 
-        $credentials = [
-            'nick' => $request->nick,
-            'password' => $request->password,
-        ];
-
+        $credentials = $request->only('nick', 'password');
         $remember = $request->has('remember');
 
-        if(Auth::attempt($credentials, $remember)){
-
+        if(Auth::attempt($credentials, $remember)){ //Intento de autenticacón
             $request->session()->regenerate();
             return redirect()->intended(route('home'));
-
-        }
-        else{
-            return redirect('login');
         }
 
+        return redirect('login');
     }
 
     public function logout(Request $request){

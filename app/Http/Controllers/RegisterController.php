@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Rules\DniValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,11 +11,11 @@ class RegisterController extends Controller
 {
     public function register(Request $request){
 
-        //validamos los datos del usuario que nos llega
+        //validar los datos que llegan desde el fronted
         $request->validate([
             'full_name' => 'required|max:100',
             'nick' => 'required|unique:users|max:50',
-            'nif' => 'required|unique:users|min:9|max:9',
+            'nif' => ['required', 'unique:users', 'min:9', 'max:9,', new DniValidator],
             'email' => 'required|unique:users|max:255',
             'password' => 'required|max:255',
             'born_date' => 'required|date'
