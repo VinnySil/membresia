@@ -17,7 +17,7 @@ class RegisterController extends Controller
             'nick' => 'required|unique:users|max:50',
             'nif' => ['required', 'unique:users', 'min:9', 'max:9,', new DniValidator],
             'email' => 'required|unique:users|max:255',
-            'password' => 'required|max:255',
+            'password' => 'required|min:8|max:255|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'born_date' => 'required|date'
         ]);
 
