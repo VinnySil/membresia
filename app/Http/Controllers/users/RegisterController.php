@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\users;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Rules\DniValidator;
 use Illuminate\Http\Request;

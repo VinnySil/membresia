@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\users\AccountController;
+use App\Http\Controllers\users\LoginController;
+use App\Http\Controllers\users\RegisterController;
+use App\Http\Controllers\users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,8 +22,16 @@ Route::post('/register', [RegisterController::class, 'register'])->name('post.re
 Route::post('/login', [LoginController::class, 'login'])->name('post.login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//Endpoint para el crud de usuarios
-Route::resource('users', UserController::class);
+Route::middleware('auth')->group(function(){
+    //Endpoint para el crud de usuarios
+    Route::resource('users', UserController::class);
+    
+    //Endpoints para las cuentas de usuarios
+    Route::controller(AccountController::class)->group(function(){
+        Route::get('/account/{user}', 'show')->name('account.show');
+        Route::patch('/account/{user}', 'update')->name('account.update');
+        Route::delete('/account/{user}', 'destroy')->name('account.destroy');
+    });
+    
+});
 
-//Endpoints para los profiles de los usuarios
-Route::resource('profiles', ProfileController::class)->only(['show', 'edit', 'update', 'destroy']);
