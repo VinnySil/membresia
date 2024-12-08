@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\users\LoginController;
+use App\Http\Controllers\users\ProfileController;
+use App\Http\Controllers\users\RegisterController;
+use App\Http\Controllers\users\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
