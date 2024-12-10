@@ -12,7 +12,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/no-autorizado', function () {
-    return view('no-autorizado');
+    return view('no_autorizado');
 })->name('no-autorizado');
 
 Route::get('/register', function(){

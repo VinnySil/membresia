@@ -55,5 +55,5 @@ class User extends Authenticatable
         return 'nick';
     }
 
-    public function rol(){return $this->belongsTo(Rol::class, 'rol_id');}
+    public function rol(){return $this->belongsTo(Rol::class);}
 }

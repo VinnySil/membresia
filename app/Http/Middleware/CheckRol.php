@@ -15,9 +15,7 @@ class CheckRol
      */
     public function handle(Request $request, Closure $next, string $rol): Response
     {
-        dd($request->user()->rol());
-
-        if($request->user()->rol()->name() !== $rol) //Compruebo si el usuario cumple con el rol
+        if($request->user()->rol->name !== $rol) //Compruebo si el usuario cumple con el rol
             return redirect("no-autorizado");
 
         return $next($request);
