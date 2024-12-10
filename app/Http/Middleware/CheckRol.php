@@ -16,7 +16,7 @@ class CheckRol
     public function handle(Request $request, Closure $next, string $rol): Response
     {
         if($request->user()->rol->name !== $rol) //Compruebo si el usuario cumple con el rol
-            return redirect("no-autorizado");
+            return abort(403, "No tienes permisos para acceder");
 
         return $next($request);
     }

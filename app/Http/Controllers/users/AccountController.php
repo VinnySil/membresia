@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Rules\DniValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     public function show(User $user)
     {
+
+        if(Auth::user()->nick !== $user->nick)//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "Acceso denegado");
+
         return view('users.account', compact('user'));
     }
 
