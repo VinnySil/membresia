@@ -29,7 +29,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     //Endpoint para el crud de usuarios
-    Route::resource('users', UserController::class)->middleware(CheckRol::class.':Administrador');
+    Route::resource('users', UserController::class)->middleware(CheckRol::class.':Administrador,Editor');
     
     //Endpoints para las cuentas de usuarios
     Route::controller(AccountController::class)->group(function(){

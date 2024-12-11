@@ -13,11 +13,19 @@ class CheckRol
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $rol): Response
+    public function handle(Request $request, Closure $next, string ...$rols): Response
     {
-        if($request->user()->rol->name !== $rol) //Compruebo si el usuario cumple con el rol
-            return abort(403, "No tienes permisos para acceder");
+        $allowed = false;
 
-        return $next($request);
+        foreach ($rols as $rol) {
+            if($request->user()->rol->name === $rol){ //Compruebo si el usuario cumple con el rol
+                $allowed = true;
+                break;
+            }
+        }
+
+        if($allowed) return $next($request);
+        else return abort(403, 'No tienes permisos para acceder');
+        
     }
 }
