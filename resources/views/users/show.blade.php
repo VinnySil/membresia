@@ -9,6 +9,6 @@
 <body>
     
     <h1>Datos del usuario {{$user->nick}}</h1>
-
+    <h1>rol: {{$user->rol->name}}</h1>
 </body>
 </html>

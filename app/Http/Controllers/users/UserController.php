@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Rules\DniValidator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -28,6 +29,10 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
+
         //validar los datos que llegan desde el fronted
         $request->validate([
             'full_name' => 'required|max:100',
@@ -81,6 +86,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
         $user->delete();
         return redirect()->route('users.index');
     }

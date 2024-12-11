@@ -4,11 +4,16 @@ use App\Http\Controllers\users\AccountController;
 use App\Http\Controllers\users\LoginController;
 use App\Http\Controllers\users\RegisterController;
 use App\Http\Controllers\users\UserController;
+use App\Http\Middleware\CheckRol;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/no-autorizado', function () {
+    return view('no_autorizado');
+})->name('no-autorizado');
 
 Route::get('/register', function(){
     return view('auth.register');
@@ -24,7 +29,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function(){
     //Endpoint para el crud de usuarios
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class)->middleware(CheckRol::class.':Administrador,Editor');
     
     //Endpoints para las cuentas de usuarios
     Route::controller(AccountController::class)->group(function(){
