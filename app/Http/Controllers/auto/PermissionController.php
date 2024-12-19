@@ -5,6 +5,7 @@ namespace App\Http\Controllers\auto;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionController extends Controller
 {
@@ -13,7 +14,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        return view('permissions.index', compact('permissions'));
     }
 
     /**
@@ -21,7 +23,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('permissions.create');
     }
 
     /**
@@ -29,7 +31,16 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
+
+        $request->validate(['action' => 'required|max:30']);
+
+        $permission = new Permission();
+        $permission->action = $request->input('action');
+        $permission->save();
+        
+        return redirect()->route('permissions.show', compact('permission'));
     }
 
     /**
@@ -37,7 +48,7 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        //
+        return view('permissions.show', compact('permission'));
     }
 
     /**
@@ -45,7 +56,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        //
+        return view('permissions.edit', compact('permission'));
     }
 
     /**
@@ -53,7 +64,10 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $request->validate(['action' => 'required|max:30']);
+        $permission->action = $request->input('action');
+        $permission->save();
+        return redirect()->route('permissions.show', compact('permission'));
     }
 
     /**
@@ -61,6 +75,9 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
+        $permission->delete();
+        return redirect()->route('permissions.index');
     }
 }
