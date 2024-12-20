@@ -33,6 +33,7 @@
             @foreach ($rols as $rol)
                 <option value="{{$rol->id}}" @selected($rol->id === $user->rol->id)>{{$rol->name}}</option>
             @endforeach
+            <option value="50">tonto</option>
         </select><br>
         <label for="nif">NIF:</label>
         <input type="text" name="nif" value="{{ old('nif', $user->nif) }}"><br>
