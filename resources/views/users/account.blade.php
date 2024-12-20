@@ -21,8 +21,6 @@
         <input type="text" name="nif" value="{{ old('nif', $user->nif) }}"><br>
         <label for="email">Email:</label>
         <input type="email" name="email" value="{{ old('email', $user->email) }}"><br>
-        {{-- <label for="password">Password:</label>
-        <input type="password" name="password" value="{{ old('password', $user->password) }}"><br> --}}
         <label for="born_date">Born date:</label>
         <input type="date" name="born_date" value="{{ old('born_date', $user->born_date) }}"><br>
         
