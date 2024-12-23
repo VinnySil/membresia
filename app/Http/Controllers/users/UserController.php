@@ -19,7 +19,7 @@ class UserController extends Controller
     $rols = Rol::all();
 
     $users = ($filters ? User::filter($filters)->orderBy('nick', 'asc')->paginate(3) : User::orderBy('nick', 'asc')->paginate(3));
-    return view('users.index', compact('users', 'rols'));
+    return view('users.index', compact('users', 'rols', 'filters'));
    }
 
    /**
