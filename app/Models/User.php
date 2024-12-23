@@ -56,4 +56,21 @@ class User extends Authenticatable
     }
 
     public function rol(){return $this->belongsTo(Rol::class);}
+
+
+    //local scopes
+    public function scopeFilter($query, $filters){
+        
+        return $query
+            ->when($filters['full_name'] ?? null, function ($query, $name){
+                $query->where('full_name', 'like', "%$name%");
+            })
+            ->when($filters['nick'] ?? null, function ($query, $nick){
+                $query->where('nick', 'like', "%$nick%");
+            })
+            ->when($filters['rol_id'] ?? null, function($query, $rol_id){
+                $query->where('rol_id', $rol_id);
+            });
+
+    }
 }

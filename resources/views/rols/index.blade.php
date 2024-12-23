@@ -32,5 +32,6 @@
             @endforeach
         </tbody>        
     </table>
+    {{$rols->links()}}
 </body>
 </html>

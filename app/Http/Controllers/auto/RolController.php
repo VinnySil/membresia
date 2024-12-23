@@ -15,7 +15,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $rols = Rol::all();
+        $rols = Rol::orderBy('name', 'asc')->paginate(2);
         return view('rols.index', compact('rols'));
     }
 
