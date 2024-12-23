@@ -8,7 +8,23 @@
 </head>
 <body>
     <h1>Usuarios</h1>
+    <form action="{{ route('users.index')}}" method="GET">
+        <label for="full_name">Full Name:</label>
+        <input type="text" name="full_name" value="{{ old('full_name', isset($filters['full_name']) ? $filters['full_name'] : null) }}"><br>
+        <label for="nick">Nick:</label>
+        <input type="text" name="nick" value="{{ old('nick', isset($filters['nick']) ? $filters['nick'] : null) }}"><br>
+        <label for="rol">Rol:</label>
+        <select name="rol_id">
+            <option value="">Seleccione un rol</option>
+            @foreach ($rols as $rol)
+                <option value="{{$rol->id}}">{{$rol->name}}</option>
+            @endforeach
+        </select><br>
+        <button type="submit">Buscar</button>
+    </form>
+
     <a href="{{ route('users.create') }}">Crear nuevo usuario</a>
+
     <table>
         <thead>
             <tr>
@@ -39,5 +55,6 @@
             @endforeach
         </tbody>        
     </table>
+    {{$users->links()}}
 </body>
 </html>

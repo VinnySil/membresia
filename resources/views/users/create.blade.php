@@ -25,6 +25,12 @@
         <input type="text" name="full_name" value="{{ old('full_name') }}"><br>
         <label for="nick">Nick:</label>
         <input type="text" name="nick" value="{{ old('nick') }}"><br>
+        <label for="rol">Rol:</label>
+        <select name="rol_id">
+            @foreach ($rols as $rol)
+                <option value="{{$rol->id}}">{{$rol->name}}</option>
+            @endforeach
+        </select><br>
         <label for="nif">NIF:</label>
         <input type="text" name="nif" value="{{ old('nif') }}"><br>
         <label for="email">Email:</label>

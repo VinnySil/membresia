@@ -24,7 +24,9 @@ class LoginController extends Controller
             return redirect()->intended(route('home'));
         }
 
-        return redirect('login');
+        return back()->withErrors([
+            'error' => 'Error, usuario no válido',
+        ])->onlyInput();
     }
 
     public function logout(Request $request){

@@ -8,6 +8,13 @@
 </head>
 <body>
     <h1>Index de rols</h1>
+
+    <form action="{{ route('rols.index')}}" method="GET">
+        <label for="name">Name: </label>
+        <input type="text" name="name" value="{{ old('name',$filter ? $filter : null) }}"><br>
+        <button type="submit">Buscar</button>
+    </form>
+
     <a href="{{ route('rols.create') }}">Crear nuevo permiso</a>
     <table>
         <thead>
@@ -32,5 +39,6 @@
             @endforeach
         </tbody>        
     </table>
+    {{$rols->links()}}
 </body>
 </html>

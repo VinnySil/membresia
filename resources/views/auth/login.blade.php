@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Logueate para acceder a la página</h1>
+    @error('error')
+        <div>{{ $message }}</div>
+    @enderror
     <form action="{{ route('post.login') }}" method="POST">
         @csrf
         <label for="nick">Nick:</label>

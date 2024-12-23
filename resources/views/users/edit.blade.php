@@ -28,12 +28,16 @@
         <input type="text" name="full_name" value="{{ old('full_name', $user->full_name) }}"><br>
         <label for="nick">Nick:</label>
         <input type="text" name="nick" value="{{ old('nick', $user->nick) }}"><br>
+        <label for="rol">Rol:</label>
+        <select name="rol_id">
+            @foreach ($rols as $rol)
+                <option value="{{$rol->id}}" @selected($rol->id === $user->rol->id)>{{$rol->name}}</option>
+            @endforeach
+        </select><br>
         <label for="nif">NIF:</label>
         <input type="text" name="nif" value="{{ old('nif', $user->nif) }}"><br>
         <label for="email">Email:</label>
         <input type="email" name="email" value="{{ old('email', $user->email) }}"><br>
-        {{-- <label for="password">Password:</label>
-        <input type="password" name="password" value="{{ old('password', $user->password) }}"><br> --}}
         <label for="born_date">Born date:</label>
         <input type="date" name="born_date" value="{{ old('born_date', $user->born_date) }}"><br>
         

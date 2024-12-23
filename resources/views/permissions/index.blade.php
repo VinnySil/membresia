@@ -8,6 +8,14 @@
 </head>
 <body>
     <h1>Index de permisos</h1>
+
+    <form action="{{ route('permissions.index')}}" method="GET">
+        <label for="action">Action: </label>
+        <input type="text" name="action" value="{{ old('action',$filter ? $filter : null) }}"><br>
+        <button type="submit">Buscar</button>
+    </form>
+
+
     <a href="{{ route('permissions.create') }}">Crear nuevo permiso</a>
     <table>
         <thead>
@@ -32,5 +40,6 @@
             @endforeach
         </tbody>        
     </table>
+    {{$permissions->links()}}
 </body>
 </html>
