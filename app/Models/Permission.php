@@ -12,4 +12,9 @@ class Permission extends Model
     public function rols(){
         return $this->belongsToMany(Rol::class);
     }
+
+    //filtro scope para la action
+    public function scopeAction($query, $action){
+        return $query->where('action', 'like', "%$action%");
+    }
 }

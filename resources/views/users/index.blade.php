@@ -17,7 +17,7 @@
         <select name="rol_id">
             <option value="">Seleccione un rol</option>
             @foreach ($rols as $rol)
-                <option value="{{$rol->id}}" @selected($filters['rol_id'] == $rol->id)>{{$rol->name}}</option>
+                <option value="{{$rol->id}}">{{$rol->name}}</option>
             @endforeach
         </select><br>
         <button type="submit">Buscar</button>

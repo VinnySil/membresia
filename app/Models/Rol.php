@@ -12,4 +12,10 @@ class Rol extends Model
 
     //Relación uno a muchos
     public function users(){return $this->hasMany(User::class);}
+
+    //filtro scope para el nombre
+    public function scopeName($query, $name){
+
+        return $query->where('name', 'like', "%$name%");
+    }
 }
