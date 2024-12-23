@@ -1,17 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\users;
 
+use App\Http\Controllers\Controller;
+use App\Models\Rol;
 use App\Models\User;
+use App\Rules\DniValidator;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
    public function index()
    {
-       $users = User::all();
-       return view('users.index', compact('users'));
+
+    $filters = request()->only(['full_name', 'nick', 'rol_id']);
+    $rols = Rol::all();
+
+    $users = User::filter($filters)->orderBy('nick', 'asc')->paginate(3);
+    return view('users.index', compact('users', 'rols', 'filters'));
    }
 
    /**
@@ -19,7 +27,8 @@ class UserController extends Controller
     */
    public function create()
    {
-       return view('users.create');
+    $rols = Rol::all();
+    return view('users.create', compact('rols'));
    }
 
     /**
@@ -27,15 +36,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
+
         //validar los datos que llegan desde el fronted
         $request->validate([
             'full_name' => 'required|max:100',
             'nick' => 'required|unique:users|max:50',
-            'nif' => 'required|unique:users|min:9|max:9',
+            'rol_id' => 'required',Rule::exists('rols', 'id'),
+            'nif' => ['required', 'unique:users', 'min:9', 'max:9,', new DniValidator],
             'email' => 'required|unique:users|max:255',
-            'password' => 'required|max:255',
+            'password' => 'required|min:8|max:255|regex:/^(?=.*[A-Z])(?=.*\d).+$/',
             'born_date' => 'required|date'
         ]);
+
         $user = User::create($request->all());
 
         return redirect()->route('users.show', compact('user'));
@@ -54,7 +69,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $rols = Rol::all();
+        return view('users.edit', compact('user', 'rols'));
     }
 
     /**
@@ -66,7 +82,8 @@ class UserController extends Controller
         $request->validate([
             'full_name' => 'required|max:100',
             'nick' => 'required|max:50|unique:users,nick,'.$user->id,
-            'nif' => 'required|min:9|max:9|unique:users,nif,'.$user->id,
+            'rol_id' => 'required|'.Rule::exists('rols', 'id'),
+            'nif' => ['required', 'min:9', 'max:9,', new DniValidator, 'unique:users,nif,'.$user->id],
             'email' => 'required|max:255|unique:users,email,'.$user->id,
             'born_date' => 'required|date'
         ]);
@@ -80,6 +97,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if(Auth::user()->rol->name !== 'Administrador')//Comprobamos si el usuario autenticado es el mismmo al que intenta acceder a la ruta
+            abort(403, "No tienes permisos para acceder");
         $user->delete();
         return redirect()->route('users.index');
     }
